@@ -1,35 +1,271 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Mídia Pago</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f6f8;
-            color: #333;
-            text-align: center;
-        }
-        .container {
-            padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        h1 { margin-bottom: 0.5rem; }
-        p { color: #666; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de Campanhas de Marketing Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--tx:#1c2433;--mut:#667085;--bd:#dfe3ec;--pri:#1a73e8;--pri-d:#1459b8;--ok:#1e9e5a;--ok-bg:#e8f7ef;--err:#d93025;--err-bg:#fdecea;--warn:#f5a623;--sh:0 2px 10px rgba(20,30,60,.08);--r:14px}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--tx);line-height:1.5}
+header{background:#fff;border-bottom:1px solid var(--bd);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+header h1{font-size:1.1rem;margin:0}
+header small{color:var(--mut)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1px solid var(--bd);background:#fff;padding:7px 14px;border-radius:999px;font:600 .85rem inherit;font-family:inherit;cursor:pointer;color:var(--mut)}
+.tab.active{background:var(--pri);color:#fff;border-color:var(--pri)}
+.tab.done{border-color:var(--ok);color:var(--ok)}
+.tab.active.done{background:var(--ok);color:#fff}
+.tab:disabled{opacity:.45;cursor:not-allowed}
+main{max-width:1200px;margin:22px auto;padding:0 16px;display:grid;grid-template-columns:1fr 1.25fr;gap:20px;align-items:start}
+@media(max-width:860px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:22px}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:999px;background:#e8f0fe;color:var(--pri);margin-bottom:8px}
+h2{margin:.1rem 0 .6rem;font-size:1.25rem}
+.brief p{margin:.5rem 0;color:#344054}
+.brief ul{padding-left:18px;margin:.4rem 0}
+.brief .tip{background:#fff8e6;border-left:4px solid var(--warn);padding:10px 12px;border-radius:8px;margin-top:12px;font-size:.9rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.f.full{grid-column:1/-1}
+label{display:block;font-size:.8rem;font-weight:600;margin-bottom:4px}
+select,input{width:100%;padding:10px 12px;border:1.5px solid var(--bd);border-radius:10px;font:inherit;background:#fff;color:var(--tx)}
+select:focus,input:focus{outline:none;border-color:var(--pri);box-shadow:0 0 0 3px rgba(26,115,232,.15)}
+.f.ok select,.f.ok input{border-color:var(--ok);background:var(--ok-bg)}
+.f.err select,.f.err input{border-color:var(--err);background:var(--err-bg)}
+.f .msg{font-size:.75rem;margin-top:3px;min-height:0}
+.f.ok .msg{color:var(--ok)}.f.err .msg{color:var(--err)}
+.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+button.btn{border:none;border-radius:10px;padding:11px 20px;font:600 .95rem inherit;font-family:inherit;cursor:pointer}
+.primary{background:var(--pri);color:#fff}.primary:hover{background:var(--pri-d)}
+.success{background:var(--ok);color:#fff}
+.ghost{background:#eef1f6;color:var(--tx)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.result{margin-top:18px;border-radius:12px;padding:14px 16px;display:none}
+.result.show{display:block}
+.result.good{background:var(--ok-bg);border:1px solid var(--ok)}
+.result.bad{background:var(--err-bg);border:1px solid var(--err)}
+.bar{height:10px;background:#e4e7ee;border-radius:99px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--err);transition:width .4s,background .4s}
+.result h3{margin:0 0 4px;font-size:1rem}
+.result p{margin:.4rem 0;font-size:.92rem}
+.explain{margin-top:14px;border:1px solid var(--bd);border-radius:12px;padding:4px 16px;background:#fafbfd}
+.ex-i{padding:10px 0;border-bottom:1px solid var(--bd);font-size:.9rem}
+.ex-i:last-child{border-bottom:none}
+.ex-i b{display:block;margin-bottom:2px}
+.ex-i .ans{color:var(--pri-d);font-weight:600;font-size:.82rem}
+.st-ok{color:var(--ok)}.st-err{color:var(--err)}
+[hidden]{display:none!important}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 Simulador de Mídia Pago</h1>
-        <p>Aguarde, a aplicação está em desenvolvimento e será atualizada em breve.</p>
+<header>
+  <div><h1>📊 Simulador de Configuração de Campanhas</h1><small>Leia o briefing, extraia as informações e configure a campanha</small></div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<main>
+  <section class="card brief" id="brief"></section>
+  <section class="card">
+    <h2>⚙️ Painel de Configuração da Campanha</h2>
+    <div class="grid" id="form"></div>
+    <div class="actions">
+      <button class="btn primary" id="btnVal">✔ Validar Campanha</button>
+      <button class="btn ghost" id="btnClear">Limpar</button>
+      <button class="btn success" id="btnNext" disabled>Próximo Exercício →</button>
     </div>
+    <div class="result" id="result"></div>
+    <div class="actions" id="explainWrap" hidden><button class="btn primary" id="btnExplain" aria-expanded="false">💡 Explique o porquê</button></div>
+    <div class="explain" id="explain" hidden></div>
+  </section>
+</main>
+
+<script>
+/* ===== Listas compartilhadas ===== */
+const OBJ=["Reconhecimento","Tráfego","Leads","Vendas"];
+const GEO=["Cidade Específica","Cidade + Raio (km)","Estado","Nacional"];
+const LOC=["São Carlos","São Carlos + 30 km","São Carlos + 50 km","Estado de São Paulo","Brasil / Nacional"];
+const IDADE=["18-24","25-45","35-65","18-65+"];
+const GEN=["Todos","Masculino","Feminino"];
+const CAN=["Instagram Stories/Reels","Google Search","Meta Feed","Multi-canal"];
+const CTA=["Comprar Agora","Saiba Mais","Enviar Mensagem no WhatsApp","Baixar E-book","Agendar Test Drive"];
+
+const FIELDS=[
+ {k:"nome",l:"1. Nome da Campanha",t:"sel",full:1},
+ {k:"objetivo",l:"2. Objetivo da Campanha",t:"sel",o:OBJ},
+ {k:"orcamento",l:"3. Orçamento Diário (R$)",t:"num"},
+ {k:"geoTipo",l:"4. Tipo de Geolocalização",t:"sel",o:GEO},
+ {k:"local",l:"5. Localização Específica",t:"sel",o:LOC},
+ {k:"idade",l:"6. Faixa Etária",t:"sel",o:IDADE},
+ {k:"genero",l:"7. Gênero do Público",t:"sel",o:GEN},
+ {k:"interesse",l:"8. Interesse / Segmentação Principal",t:"sel",full:1},
+ {k:"canal",l:"9. Posicionamento / Canal de Mídia",t:"sel",o:CAN},
+ {k:"cta",l:"10. Chamada para Ação (CTA)",t:"sel",o:CTA}
+];
+
+/* ===== Exercícios ===== */
+const EXERCICIOS=[
+{
+ nivel:1,dif:"Muito Fácil",titulo:"Barbearia no Centro de São Carlos",
+ briefing:`<p><b>Cliente:</b> Barbearia Navalha, localizada no centro de São Carlos-SP.</p>
+ <p>O dono quer encher a agenda dos próximos dias. Os clientes são homens que moram ou trabalham na região central e preferem marcar horário conversando direto pelo celular.</p>
+ <ul><li>Público: homens de 25 a 45 anos</li><li>Verba mensal: R$ 900,00 (campanha ativa os 30 dias)</li><li>Quer resultado rápido: pessoas pedindo horário</li><li>Só atende na cidade, sem delivery</li></ul>
+ <div class="tip">💡 Dica: converta o orçamento mensal em diário e foque na geolocalização exata.</div>`,
+ opts:{nome:["Barbearia Navalha - Agendamentos Centro São Carlos","Barbearia - Brasil Todo","Campanha Teste 01","Promoção Black Friday Nacional"],
+  interesse:["Cuidados masculinos e barba","Moda feminina e maquiagem","Games e eSports","Investimentos e bolsa de valores"]},
+ gabarito:{nome:"Barbearia Navalha - Agendamentos Centro São Carlos",objetivo:"Leads",orcamento:30,geoTipo:"Cidade Específica",local:"São Carlos",idade:"25-45",genero:"Masculino",interesse:"Cuidados masculinos e barba",canal:"Instagram Stories/Reels",cta:"Enviar Mensagem no WhatsApp"},
+ porque:{"nome": "O nome identifica negócio, objetivo e local, o que facilita a organização e a leitura dos relatórios. As alternativas citam abrangência ou objetivo que não condizem com o briefing.", "objetivo": "O dono quer pedidos de horário, ou seja, contatos interessados: Leads. Reconhecimento e Tráfego não garantem agendamentos, e Vendas pressupõe compra online.", "orcamento": "A verba mensal de R$ 900 dividida por 30 dias resulta em R$ 30 por dia.", "geoTipo": "A barbearia só atende no centro da cidade, então Cidade Específica evita gastar com quem está longe.", "local": "São Carlos, sem raio: o briefing fala apenas da cidade.", "idade": "O briefing define homens de 25 a 45 anos.", "genero": "O público declarado é masculino. Segmentar por gênero evita desperdício de verba.", "interesse": "Cuidados masculinos e barba têm relação direta com o serviço. Os demais interesses não têm ligação com o negócio.", "canal": "Stories/Reels geram impacto visual rápido, ideal para mostrar cortes e atrair quem está perto.", "cta": "O cliente prefere marcar horário conversando pelo celular, e o botão de WhatsApp reduz o atrito."},
+ explicacao:"Negócio local de serviço: a meta é gerar contatos (Leads) que viram agendamentos. R$ 900 ÷ 30 dias = R$ 30/dia. Como só atende na cidade, usa-se Cidade Específica (São Carlos), sem raio, evitando gastar verba fora da área. Público masculino de 25-45 anos, com interesse em cuidados masculinos. Stories/Reels geram impacto visual rápido, e o CTA de WhatsApp combina com o hábito do cliente de marcar horário por mensagem."
+},
+{
+ nivel:2,dif:"Fácil",titulo:"Doceria Gourmet Regional",
+ briefing:`<p><b>Cliente:</b> Doceria Doce Mimo, que vende caixas de brigadeiros e bolos gourmet pela loja virtual.</p>
+ <p>A entrega própria cobre São Carlos e cidades vizinhas em até 30 km. Fora disso, o frete inviabiliza a venda.</p>
+ <ul><li>Público principal: mulheres de 25 a 45 anos</li><li>Verba mensal: R$ 1.500,00</li><li>Objetivo: vender direto pelo site</li><li>Fotos de produtos em catálogo, com botão de compra</li></ul>
+ <div class="tip">💡 Dica: atenção ao raio de entrega e ao tipo de posicionamento que mostra catálogo.</div>`,
+ opts:{nome:["Doce Mimo - Vendas Caixas Gourmet - Raio 30km","Doce Mimo - Reconhecimento Nacional","Doceria - Panfleto Digital","Teste Aleatório Campanha"],
+  interesse:["Confeitaria e gastronomia gourmet","Mecânica automotiva","Pesca esportiva","Software de contabilidade"]},
+ gabarito:{nome:"Doce Mimo - Vendas Caixas Gourmet - Raio 30km",objetivo:"Vendas",orcamento:50,geoTipo:"Cidade + Raio (km)",local:"São Carlos + 30 km",idade:"25-45",genero:"Feminino",interesse:"Confeitaria e gastronomia gourmet",canal:"Meta Feed",cta:"Comprar Agora"},
+ porque:{"nome": "O nome reúne marca, objetivo (vendas) e abrangência (raio de 30 km). As outras opções indicam objetivo ou alcance diferentes do briefing.", "objetivo": "A meta é vender direto pelo site: Vendas.", "orcamento": "R$ 1.500 ÷ 30 dias = R$ 50 por dia.", "geoTipo": "A entrega cobre a cidade e as vizinhas até 30 km, então é Cidade + Raio, e não apenas a cidade nem o estado.", "local": "São Carlos + 30 km é exatamente a área de entrega. Um raio maior ultrapassa o limite em que o frete é viável.", "idade": "O público principal são mulheres de 25 a 45 anos.", "genero": "O briefing indica público feminino.", "interesse": "Confeitaria e gastronomia gourmet conectam o anúncio a quem tem afinidade com o produto.", "canal": "O Feed do Meta exibe o catálogo de produtos com botão de compra, adequado ao e-commerce.", "cta": "Com o objetivo de venda direta no site, Comprar Agora leva o cliente à ação final."},
+ explicacao:"E-commerce com meta de venda direta pede o objetivo Vendas e o CTA Comprar Agora. R$ 1.500 ÷ 30 = R$ 50/dia. A entrega cobre a cidade e 30 km ao redor, então a escolha correta é Cidade + Raio, com São Carlos + 30 km. O Feed do Meta permite exibir produtos e botão de compra com mais detalhes que um formato rápido. Público feminino de 25-45 anos com interesse em confeitaria e gastronomia gourmet."
+},
+{
+ nivel:3,dif:"Médio",titulo:"Lançamento de Curso B2B no Estado de SP",
+ briefing:`<p><b>Cliente:</b> GestãoPro, plataforma SaaS com um curso online de gestão financeira para pequenas empresas.</p>
+ <p>O lançamento é para donos e gestores de empresas em todo o Estado de São Paulo. A empresa quer montar uma base de contatos interessados, oferecendo um e-book gratuito antes do convite para a aula demonstrativa.</p>
+ <ul><li>Público: gestores e empresários de 35 a 65 anos, homens e mulheres</li><li>Verba mensal: R$ 3.600,00</li><li>Meta: captar leads qualificados (B2B)</li><li>Pessoas buscam ativamente soluções para organizar o financeiro</li></ul>
+ <div class="tip">💡 Dica: quem está procurando solução ativamente costuma estar no buscador.</div>`,
+ opts:{nome:["GestaoPro - Leads B2B E-book - Estado SP","GestaoPro - Vendas Nacional","Curso Online - Tráfego Cidade","Lançamento Geral Sem Público"],
+  interesse:["Gestão empresarial e empreendedorismo","Streaming de séries","Moda e beleza","Turismo de aventura"]},
+ gabarito:{nome:"GestaoPro - Leads B2B E-book - Estado SP",objetivo:"Leads",orcamento:120,geoTipo:"Estado",local:"Estado de São Paulo",idade:"35-65",genero:"Todos",interesse:"Gestão empresarial e empreendedorismo",canal:"Google Search",cta:"Baixar E-book"},
+ porque:{"nome": "O nome indica marca, objetivo (leads B2B com e-book) e abrangência (Estado de SP).", "objetivo": "O lançamento começa captando contatos com um e-book gratuito: Leads.", "orcamento": "R$ 3.600 ÷ 30 dias = R$ 120 por dia.", "geoTipo": "O público está em todo o Estado de São Paulo. Escolher Cidade ou Nacional erraria o alcance.", "local": "Estado de São Paulo, igual ao território citado no briefing.", "idade": "Donos e gestores de empresas: 35 a 65 anos.", "genero": "O briefing inclui homens e mulheres, portanto Todos.", "interesse": "Gestão empresarial e empreendedorismo descreve o perfil B2B que busca organizar o financeiro.", "canal": "Quem busca soluções ativamente está no buscador. O Google Search captura intenção e melhora a qualidade do lead.", "cta": "O e-book gratuito é a isca da campanha, então o CTA é Baixar E-book."},
+ explicacao:"Captar contatos com isca digital caracteriza o objetivo Leads e o CTA Baixar E-book. R$ 3.600 ÷ 30 = R$ 120/dia. O alcance é o Estado inteiro (geoTipo Estado), não apenas uma cidade. Gestores e empresários ficam na faixa 35-65, sem restrição de gênero. O Google Search captura quem já busca ativamente uma solução, o que aumenta a qualidade do lead B2B."
+},
+{
+ nivel:4,dif:"Difícil",titulo:"Moda Sustentável com Alcance Nacional",
+ briefing:`<p><b>Cliente:</b> Terra Viva, marca de moda sustentável feita com algodão orgânico e materiais reciclados, vendida em loja virtual com envio para todo o Brasil.</p>
+ <p>A marca está em fase de testes de criativos e de públicos. Quer vender para um público consciente, mas ainda precisa descobrir quais anúncios funcionam melhor em cada plataforma.</p>
+ <ul><li>Público: mulheres de 25 a 45 anos, com interesse em consumo consciente</li><li>Verba mensal: R$ 9.000,00</li><li>Meta: vendas na loja virtual em todo o território nacional</li><li>Os testes devem rodar em mais de um ambiente de mídia ao mesmo tempo</li></ul>
+ <div class="tip">💡 Dica: testar criativos em vários ambientes pede uma estratégia multi-canal.</div>`,
+ opts:{nome:["Terra Viva - Vendas Nacional - Teste de Criativos","Terra Viva - Leads Local","Moda - Reconhecimento Cidade","Campanha Roupas Genérica"],
+  interesse:["Moda sustentável e consumo consciente","Peças para motos","Gestão de estoque industrial","Culinária regional"]},
+ gabarito:{nome:"Terra Viva - Vendas Nacional - Teste de Criativos",objetivo:"Vendas",orcamento:300,geoTipo:"Nacional",local:"Brasil / Nacional",idade:"25-45",genero:"Feminino",interesse:"Moda sustentável e consumo consciente",canal:"Multi-canal",cta:"Comprar Agora"},
+ porque:{"nome": "O nome reúne marca, objetivo, alcance nacional e a intenção de testar criativos.", "objetivo": "A meta é vender na loja virtual: Vendas.", "orcamento": "R$ 9.000 ÷ 30 dias = R$ 300 por dia.", "geoTipo": "O envio é para todo o Brasil, logo Nacional.", "local": "Brasil / Nacional, coerente com o tipo de geolocalização.", "idade": "O briefing define mulheres de 25 a 45 anos.", "genero": "O público é feminino.", "interesse": "Moda sustentável e consumo consciente é uma segmentação específica, ligada ao valor da marca, em vez de interesses amplos.", "canal": "Os testes devem rodar em mais de um ambiente. Multi-canal permite comparar onde cada criativo e público performa melhor.", "cta": "Com loja virtual e foco em vendas, o CTA é Comprar Agora."},
+ explicacao:"A meta é venda online, então Vendas e Comprar Agora. R$ 9.000 ÷ 30 = R$ 300/dia. Como o envio cobre o país, a geolocalização é Nacional (Brasil). O público tem interesse específico em moda sustentável e consumo consciente, evitando interesses amplos demais. Para comparar criativos e públicos em diferentes ambientes, a abordagem Multi-canal permite descobrir onde a marca performa melhor antes de concentrar a verba."
+},
+{
+ nivel:5,dif:"Muito Difícil",titulo:"Concessionária de Luxo com Orçamento Limitado",
+ briefing:`<p><b>Cliente:</b> Prime Motors, concessionária de veículos de luxo em São Carlos. Atende compradores da região, dispostos a viajar até 50 km para um test drive.</p>
+ <p>A verba é curta e cada centavo precisa chegar a quem tem real intenção e renda para comprar. O foco não é vender o carro online, e sim levar o cliente qualificado até a loja.</p>
+ <ul><li>Público: adultos de 35 a 65 anos, homens e mulheres de alta renda</li><li>Verba mensal: R$ 2.400,00 (limite máximo)</li><li>Meta: gerar agendamentos de test drive</li><li>Evite desperdiçar verba em público curioso ou sem perfil</li></ul>
+ <div class="tip">💡 Dica: com verba limitada, priorize quem busca ativamente e tem perfil. Atenção ao raio e ao CTA.</div>`,
+ opts:{nome:["Prime Motors - Leads Test Drive - Raio 50km Alta Renda","Prime Motors - Reconhecimento Nacional","Concessionária - Vendas Estado","Carros Campanha Ampla"],
+  interesse:["Carros de luxo e alta renda","Jogos de celular","Artesanato e hobbies","Material escolar"]},
+ gabarito:{nome:"Prime Motors - Leads Test Drive - Raio 50km Alta Renda",objetivo:"Leads",orcamento:80,geoTipo:"Cidade + Raio (km)",local:"São Carlos + 50 km",idade:"35-65",genero:"Todos",interesse:"Carros de luxo e alta renda",canal:"Google Search",cta:"Agendar Test Drive"},
+ porque:{"nome": "O nome reúne marca, objetivo (test drive), raio de 50 km e o público de alta renda.", "objetivo": "O foco é levar clientes qualificados à loja: Leads (agendamentos). Vender carro de luxo online não é o objetivo.", "orcamento": "R$ 2.400 ÷ 30 dias = R$ 80 por dia, respeitando o limite máximo.", "geoTipo": "A concessionária atende compradores da região dispostos a viajar até 50 km: Cidade + Raio.", "local": "São Carlos + 50 km, o limite de deslocamento do briefing.", "idade": "Adultos de 35 a 65 anos.", "genero": "Homens e mulheres de alta renda: Todos.", "interesse": "Carros de luxo e alta renda filtram o público com perfil e evitam curiosos.", "canal": "Com verba curta, o Google Search atinge quem já pesquisa o veículo e reduz o desperdício.", "cta": "Carro de luxo exige experiência presencial, e Agendar Test Drive leva o cliente à loja."},
+ explicacao:"O objetivo é levar pessoas à loja, então Leads com CTA Agendar Test Drive (carro de luxo não se compra com um clique). R$ 2.400 ÷ 30 = R$ 80/dia. O raio de deslocamento é de 50 km, logo Cidade + Raio com São Carlos + 50 km. Com verba limitada, o Google Search atinge quem já pesquisa o veículo, reduzindo desperdício. A faixa 35-65, sem restrição de gênero, e o interesse em carros de luxo e alta renda refinam o público qualificado."
+}
+];
+
+/* ===== Estado ===== */
+let atual=0;
+const concluidos=new Set();
+const $=id=>document.getElementById(id);
+
+function renderTabs(){
+  $("tabs").innerHTML="";
+  EXERCICIOS.forEach((e,i)=>{
+    const b=document.createElement("button");
+    b.className="tab"+(i===atual?" active":"")+(concluidos.has(i)?" done":"");
+    b.textContent=(concluidos.has(i)?"✓ ":"")+"Nível "+e.nivel;
+    b.disabled=!(i===0||concluidos.has(i-1)||concluidos.has(i));
+    b.onclick=()=>{atual=i;render()};
+    $("tabs").appendChild(b);
+  });
+}
+
+function renderBriefing(){
+  const e=EXERCICIOS[atual];
+  $("brief").innerHTML=`<span class="badge">Nível ${e.nivel} · ${e.dif}</span><h2>${e.titulo}</h2>${e.briefing}`;
+}
+
+function embaralhar(a){
+  const c=a.slice();
+  for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]]}
+  return c;
+}
+
+function renderForm(){
+  const e=EXERCICIOS[atual];
+  $("form").innerHTML=FIELDS.map(f=>{
+    let ctrl;
+    if(f.t==="num"){
+      ctrl=`<input type="number" id="f_${f.k}" min="0" step="1" placeholder="Ex: 40">`;
+    }else{
+      const lista=f.o||embaralhar(e.opts[f.k]);
+      ctrl=`<select id="f_${f.k}"><option value="">Selecione...</option>${lista.map(o=>`<option>${o}</option>`).join("")}</select>`;
+    }
+    return `<div class="f${f.full?" full":""}" id="w_${f.k}"><label for="f_${f.k}">${f.l}</label>${ctrl}<div class="msg"></div></div>`;
+  }).join("");
+  $("result").className="result";ultimo={};fecharExplicacao();$("explainWrap").hidden=true;
+  $("btnNext").disabled=!concluidos.has(atual);
+  $("btnNext").textContent=atual===EXERCICIOS.length-1?"🏁 Finalizar":"Próximo Exercício →";
+}
+
+function validar(){
+  const e=EXERCICIOS[atual],g=e.gabarito;
+  let acertos=0;const erros=[];ultimo={};
+  FIELDS.forEach(f=>{
+    const el=$("f_"+f.k),w=$("w_"+f.k),msg=w.querySelector(".msg");
+    const v=el.value.trim();
+    const certo=f.t==="num"?(v!==""&&Number(v)===g[f.k]):v===String(g[f.k]);
+    w.classList.remove("ok","err");
+    w.classList.add(certo?"ok":"err");
+    msg.textContent=certo?"✔ Correto":(v===""?"✖ Campo não preenchido":"✖ Revise este campo");
+    ultimo[f.k]=certo;if(certo)acertos++;else erros.push(f.l.replace(/^\d+\.\s*/,""));
+  });
+  const pct=Math.round(acertos/FIELDS.length*100);
+  const r=$("result"),ok=pct===100;
+  r.className="result show "+(ok?"good":"bad");
+  r.innerHTML=`<h3>${ok?"🎉 Parabéns! Campanha configurada corretamente.":"Quase lá! Revise os campos marcados em vermelho."}</h3>
+   <div><b>Pontuação:</b> ${acertos}/${FIELDS.length} campos (${pct}%)</div>
+   <div class="bar"><i style="width:${pct}%;background:${ok?"var(--ok)":pct>=70?"var(--warn)":"var(--err)"}"></i></div>
+   ${ok?`<p>Clique em <b>Explique o porquê</b> para entender cada escolha.</p>`:`<p>Releia o briefing com atenção. Campos para revisar: <b>${erros.join(", ")}</b>.</p>`}`;
+  fecharExplicacao();$("explainWrap").hidden=false;
+  if(ok){concluidos.add(atual);$("btnNext").disabled=false;renderTabs();}
+}
+
+function proximo(){
+  if(atual<EXERCICIOS.length-1){atual++;render();window.scrollTo({top:0,behavior:"smooth"});}
+  else{
+    $("result").className="result show good";
+    $("result").innerHTML="<h3>🏆 Desafio concluído!</h3><p>Você configurou corretamente as 5 campanhas, do negócio local ao cenário omnichannel com restrição de orçamento. Excelente trabalho!</p>";
+  }
+}
+
+let ultimo={};
+function fecharExplicacao(){
+  $("explain").hidden=true;
+  $("btnExplain").setAttribute("aria-expanded","false");
+  $("btnExplain").textContent="💡 Explique o porquê";
+}
+function alternarExplicacao(){
+  if(!$("explain").hidden){fecharExplicacao();return;}
+  const e=EXERCICIOS[atual];
+  $("explain").innerHTML=FIELDS.map(f=>{
+    const g=e.gabarito[f.k],val=f.t==="num"?"R$ "+g+" por dia":g,st=ultimo[f.k];
+    return `<div class="ex-i"><b>${f.l} <span class="${st?"st-ok":"st-err"}">${st?"✔ Você acertou":"✖ Revisar"}</span></b><span class="ans">Resposta correta: ${val}</span><br>${e.porque[f.k]}</div>`;
+  }).join("")+`<div class="ex-i"><b>Resumo da estratégia</b>${e.explicacao}</div>`;
+  $("explain").hidden=false;
+  $("btnExplain").setAttribute("aria-expanded","true");
+  $("btnExplain").textContent="🙈 Ocultar explicação";
+}
+function render(){renderTabs();renderBriefing();renderForm();}
+$("btnVal").onclick=validar;
+$("btnClear").onclick=renderForm;
+$("btnNext").onclick=proximo;
+$("btnExplain").onclick=alternarExplicacao;
+render();
+</script>
 </body>
 </html>
